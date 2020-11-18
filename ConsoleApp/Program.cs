@@ -7,6 +7,51 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp
 {
+    /// <summary>
+    /// Тестовое задание.
+    /// 1. Создать консольное приложение, которое:
+    /// </summary>
+    /// <remarks>
+    /// a. Из файла testDoc.rtf достает следующую информацию:
+    /// <list type="table">
+    /// <item>
+    /// <description>- Регистрационный номер сделки</description>
+    /// </item>
+    /// <item>
+    /// <description>- Номер договора</description>
+    /// </item>  
+    /// <item>
+    /// <description>- Счет контрагента</description>
+    /// </item>
+    /// <item>
+    /// <description>- Адрес контрагента</description>
+    /// </item>
+    /// <item>
+    /// <description>- Наименование договора</description>
+    /// </item>  
+    /// </list>
+    /// b. Создает Excel-файл, со столбцами:
+    /// <list type="table">
+    /// <item>
+    /// <description>- «Регистрационный номер сделки»</description>
+    /// </item>
+    /// <item>
+    /// <description>- «Номер договора»</description>
+    /// </item>  
+    /// <item>
+    /// <description>- «Счет контрагента»</description>
+    /// </item>
+    /// <item>
+    /// <description>- «Адрес контрагента»</description>
+    /// </item>
+    /// <item>
+    /// <description>- «Наименование договора»</description>
+    /// </item>  
+    /// </list>
+    /// c. Заполняет столбцы в п.2 данными из п.1.
+    /// </remarks>
+    /// <summary>
+    /// </summary> 
     class Program
     {
         private static string OriginalRTFfile = @"testDoc.rtf";
