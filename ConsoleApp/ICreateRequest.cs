@@ -9,8 +9,8 @@ namespace ConsoleApp
     public interface ICreateRequest
     {
         Dictionary<string, string> CreateQuery();
-        //string OutputTxtfile { get; set; } //= @"Output file.txt"
-        //void CreateExcelfile();
+        
+        
 
         void WriteToExcelfile(Dictionary<string, string> Query);
     }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp
 {
-    public class QueryByTask : ICreateRequest
+    public class QueryByTask : WorkingWithExcelfiles, ICreateRequest
     {
         public Dictionary<string, string> CreateQuery()
         {
