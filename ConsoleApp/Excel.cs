@@ -8,7 +8,7 @@ using Microsoft.Office.Interop.Excel;
 
 namespace ConsoleApp
 {
-    public class WorkingWithExcelfiles
+    public class Excel
     {
         public static string OutputTxtfile { get; set; } = @"Output file.txt";
 
