@@ -12,11 +12,11 @@ namespace ConsoleApp
         Dictionary<string, string> CreateQuery();
 
         string OutputTxtfile { get; set; }
-        String Registration_number_of_the_transaction { get; set; }
-        String Contract_number { get; set; }
-        String Counterparty_account { get; set; }
-        String Counteragent_address { get; set; }
-        String Name_of_contract { get; set; }
+        String Registration_number_of_the_transaction { get; set; } // - «Регистрационный номер сделки»
+        String Contract_number { get; set; } // - «Номер договора»
+        String Counterparty_account { get; set; } // - «Счет контрагента»
+        String Counteragent_address { get; set; } // - «Адрес контрагента»
+        String Name_of_contract { get; set; } // - «Наименование договора»
 
         void WriteToExcelfile(DataTable data);
     }

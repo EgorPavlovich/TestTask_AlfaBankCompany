@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -56,20 +57,55 @@ namespace ConsoleApp
     {
         private static string OriginalRTFfile = @"testDoc.rtf";
         private static string OutputTxtfile = @"Output file.txt";
+        private static string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), @"Output file by query.xlsx");
 
         static void Main(string[] args)
         {
             //ConvertRtfToTxt(OriginalRTFfile);
             try
             {
-                Excel excel = new Excel(@"Test_1", 1);
-                string[,] Strings = excel.ReadRange(1, 1, 3, 3);
-                excel.Close();
+                DataSet dataSet = new DataSet("dataSet");
+                DataTable dataTable = new DataTable(@"Данные");
+                // добавляем таблицу в dataset
+                dataSet.Tables.Add(dataTable);
 
-                Excel excel2 = new Excel(@"Test_2", 1);
-                excel2.WriteRange(1, 1, 3, 3, Strings);
-                excel2.Save();
-                excel2.Close();
+                // создаем столбцы для таблицы Данные
+                DataColumn RegNumColumn = new DataColumn(@"Регистрационный номер сделки", Type.GetType("System.String"));
+                DataColumn ContrNumColumn = new DataColumn(@"Номер договора", Type.GetType("System.String"));
+                DataColumn InvoiceColumn = new DataColumn(@"Счет контрагента", Type.GetType("System.String"));
+                DataColumn AddressColumn = new DataColumn(@"Адрес контрагента", Type.GetType("System.String"));
+                DataColumn NameColumn = new DataColumn(@"Наименование договора", Type.GetType("System.String"));
+
+                dataTable.Columns.Add(RegNumColumn);
+                dataTable.Columns.Add(ContrNumColumn);
+                dataTable.Columns.Add(InvoiceColumn);
+                dataTable.Columns.Add(AddressColumn);
+                dataTable.Columns.Add(NameColumn);
+
+                DataRow row = dataTable.NewRow();
+                row.ItemArray = new object[]
+                    { "211112/211122/211234",
+                        "12992617381936",
+                        "BY11PJCB30119349931000000933",
+                        "ТОКИО, УЛ.КИМЧЕНЫРОВИЧА, Д.11",
+                        "Тестовый договор на проводку в ДЖАПАН ТАБАСКО"
+                    };
+                dataTable.Rows.Add(row); // добавляем первую строку
+                //dataTable.Rows.Add(new object[] { null, , 300 }); // добавляем вторую строку
+
+
+                Console.Write("Регистрационный номер сделки \tНомер договора \tСчет контрагента \tАдрес контрагента \tНаименование договора");
+                Console.WriteLine();
+                foreach (DataRow r in dataTable.Rows)
+                {
+                    foreach (var cell in r.ItemArray)
+                        Console.Write("\t{0}", cell);
+                    Console.WriteLine();
+                }
+
+                Excel excel = new Excel(path);
+                excel.GenerateFileByQuery(dataSet);
+                excel.Close();
             }
             catch (Exception ex)
             {

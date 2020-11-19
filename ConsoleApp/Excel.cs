@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -18,6 +20,15 @@ namespace ConsoleApp
         public string Path { get; set; } = string.Empty;
 
         public Excel() { }
+
+        public Excel(string Path)
+        {
+            this.Path = Path;
+
+            excel.DisplayAlerts = false;
+            // Создание объекта Excel и добавление к нему рабочей книги...
+            wb = excel.Application.Workbooks.Add(true);
+        }
     
         public Excel(string Path, int Sheet)
         {
@@ -27,15 +38,26 @@ namespace ConsoleApp
             ws = wb.Worksheets[Sheet];
         }
 
-        public void CreateNewFile()
+        public void CreateNewFile(int Sheet)
         {
             this.wb = excel.Workbooks.Add(XlWBATemplate.xlWBATWorksheet);
-            this.ws = wb.Worksheets[1];
+            this.ws = wb.Worksheets[Sheet];
         }
 
         public void CreateNewSheet()
         {
             Worksheet tempSheet = wb.Worksheets.Add(After: ws);
+        }
+
+        public void GenerateFileByQuery(DataSet ds)
+        {
+            // Обход по циклу таблицы данных.... и добавление листов в рабочую книгу
+            foreach (System.Data.DataTable dt in ds.Tables)
+            {
+                AddTableSheet(ref wb, ref excel, dt, true);
+            }
+
+            SaveAs(Path);
         }
 
         public string ReadCell(int i, int j)
@@ -75,6 +97,65 @@ namespace ConsoleApp
         {
             Range range = (Range)ws.Range[ws.Cells[starti, starty], ws.Cells[endi, endy]];
             range.Value2 = text;
+        }
+
+        public void AddTableSheet(ref Workbook wb, ref _Application excel, System.Data.DataTable dt, bool _IsHeaderIncluded)
+        {
+
+            // Переименование имя первого листа/листа по умолчанию, на название записываемой таблицы
+            if (dt.TableName.Trim() != string.Empty)
+            {
+                Worksheet ws = (Worksheet)excel.Worksheets.get_Item(1);
+                if (ws.Name.ToLower() != "sheet1")
+                {
+                    ws = (Worksheet)wb.Worksheets.Add();
+                }
+                ws.Name = dt.TableName;
+            }
+
+            int iCol = 0;
+            // Добавление имён для заголовков столбцов...
+            if (_IsHeaderIncluded == true)
+            {
+                foreach (DataColumn c in dt.Columns)
+                {
+                    iCol++;
+                    excel.Cells[1, iCol] = c.ColumnName;
+                }
+            }
+
+            // Для каждой строки данных...
+            int iRow = 0;
+            foreach (DataRow r in dt.Rows)
+            {
+                iRow++;
+                // Добавление данных по ячейкам для каждой строки...
+                iCol = 0;
+                foreach (DataColumn c in dt.Columns)
+                {
+                    iCol++;
+                    if (_IsHeaderIncluded == true)
+                    {
+                        excel.Cells[iRow + 1, iCol] = r[c.ColumnName];
+                    }
+                    else
+                    {
+                        excel.Cells[iRow, iCol] = r[c.ColumnName];
+                    }
+                }
+            }
+
+        }
+
+        public void Visible(bool b)
+        {
+            excel.Visible = b;
+        }
+
+        public void ActivateTheWorksheet()
+        {
+            ws = (Worksheet)excel.ActiveSheet;
+            ws.Activate();
         }
 
         public void SelectWorksheet(int SheetNumber)
@@ -117,9 +198,41 @@ namespace ConsoleApp
             wb.SaveAs(path);
         }
 
+        public void SaveAsTheWorkbook(string path)
+        {
+            // Глобально отсутствующая ссылка для объектов, которые мы не определяем...
+            object missing = System.Reflection.Missing.Value;
+
+            wb.SaveAs
+            (
+                Path,
+                XlFileFormat.xlWorkbookNormal,
+                missing,
+                missing,
+                false,
+                false,
+                XlSaveAsAccessMode.xlNoChange,
+                missing,
+                missing,
+                missing,
+                missing,
+                missing
+            );
+        }
+
         public void Close()
         {
             wb.Close();
+        }
+
+        public void SaveAndClose()
+        {
+            wb.Close(true);
+        }
+
+        public void Shutdown()
+        {
+            excel.Quit();
         }
 
     }
