@@ -14,14 +14,16 @@ using _Excel = Microsoft.Office.Interop.Excel;
 
 namespace ConsoleApp
 {
-    public class QueryByTask : Excel, ICreateRequest
+    public class QueryByTask : ICreateRequest
     {
+        public string OutputTxtfile { get; set; } = @"Output file.txt";
+
         public string Registration_number_of_the_transaction { get; set; } = String.Empty;
         public string Contract_number { get; set; } = String.Empty;
         public string Counterparty_account { get; set; } = String.Empty;
         public string Counteragent_address { get; set; } = String.Empty;
         public string Name_of_contract { get; set; } = String.Empty;
-
+   
         public Dictionary<string, string> CreateQuery()
         {
             List<string> infoList = new List<string>();

@@ -11,6 +11,7 @@ namespace ConsoleApp
     {
         Dictionary<string, string> CreateQuery();
 
+        string OutputTxtfile { get; set; }
         String Registration_number_of_the_transaction { get; set; }
         String Contract_number { get; set; }
         String Counterparty_account { get; set; }

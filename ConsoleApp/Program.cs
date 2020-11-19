@@ -59,7 +59,22 @@ namespace ConsoleApp
 
         static void Main(string[] args)
         {
-            ConvertRtfToTxt(OriginalRTFfile);
+            //ConvertRtfToTxt(OriginalRTFfile);
+            try
+            {
+                Excel excel = new Excel(@"Test_1", 1);
+                string[,] Strings = excel.ReadRange(1, 1, 3, 3);
+                excel.Close();
+
+                Excel excel2 = new Excel(@"Test_2", 1);
+                excel2.WriteRange(1, 1, 3, 3, Strings);
+                excel2.Save();
+                excel2.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
 
             Console.ReadLine();
         }
