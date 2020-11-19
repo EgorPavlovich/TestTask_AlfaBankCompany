@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace ConsoleApp
 {
     public class Query
     {
-        public ICreateRequest Queryable { private get; set; }
+        public Request Queryable { private get; set; }
 
-        public Query(ICreateRequest Queryable)
+        public Query(Request Queryable)
         {
             this.Queryable = Queryable;
         }
@@ -19,7 +15,7 @@ namespace ConsoleApp
         {
             Task.Run(() =>
             {
-                Queryable.CreateQuery();
+                Queryable.CreateQueryByTask();
             });
         }
     }
