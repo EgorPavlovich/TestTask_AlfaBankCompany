@@ -121,6 +121,44 @@ namespace ConsoleApp
                 {
                     iCol++;
                     excel.Cells[1, iCol] = c.ColumnName;
+
+                    // (выравнивание по горизонтали) выравнивание по центру
+                    (excel.Cells[1, iCol] as Range).HorizontalAlignment = XlHAlign.xlHAlignCenter;
+                    // (выравнивание по вертикали) выравнивание по центру
+                    (excel.Cells[1, iCol] as Range).VerticalAlignment = XlHAlign.xlHAlignCenter;
+
+                    // жирность текста
+                    (excel.Cells[1, iCol] as Range).Font.Bold = true;
+                    (excel.Cells[1, iCol] as Range).Select();
+
+                    // бордюры
+                    (excel.Cells[1, iCol] as Range).Borders[XlBordersIndex.xlEdgeBottom].LineStyle = XlLineStyle.xlContinuous;
+                    (excel.Cells[1, iCol] as Range).Borders[XlBordersIndex.xlEdgeBottom].Weight = 4;
+
+                    (excel.Cells[1, iCol] as Range).Borders[XlBordersIndex.xlEdgeRight].LineStyle = XlLineStyle.xlContinuous;
+                    (excel.Cells[1, iCol] as Range).Borders[XlBordersIndex.xlEdgeRight].Weight = 2;
+
+                    (excel.Cells[1, iCol] as Range).Borders[XlBordersIndex.xlInsideHorizontal].LineStyle = XlLineStyle.xlContinuous;
+                    (excel.Cells[1, iCol] as Range).Borders[XlBordersIndex.xlInsideHorizontal].Weight = 2;
+
+                    (excel.Cells[1, iCol] as Range).Borders[XlBordersIndex.xlInsideVertical].LineStyle = XlLineStyle.xlContinuous;
+                    (excel.Cells[1, iCol] as Range).Borders[XlBordersIndex.xlInsideVertical].Weight = 2;
+
+                    (excel.Cells[1, iCol] as Range).Borders[XlBordersIndex.xlEdgeTop].LineStyle = XlLineStyle.xlContinuous;
+                    (excel.Cells[1, iCol] as Range).Borders[XlBordersIndex.xlEdgeTop].Weight = 4;
+
+                    // шрифт текста
+                    (excel.Cells[1, iCol] as Range).Cells.Font.Name = "Tahoma";
+                    // размер шрифта текста
+                    (excel.Cells[1, iCol] as Range).Cells.Font.Size = 10.5;
+
+                    // авто ширина текста
+                    (excel.Cells[1, iCol] as Range).EntireColumn.AutoFit();
+
+                    // высота текста
+                    (excel.Cells[1, 1] as Range).Rows[1].RowHeight = 20;
+                    //// авто высота текста
+                    //(excel.Cells[1, iCol] as Range).EntireRow.AutoFit();
                 }
             }
 
@@ -137,10 +175,20 @@ namespace ConsoleApp
                     if (_IsHeaderIncluded == true)
                     {
                         excel.Cells[iRow + 1, iCol] = r[c.ColumnName];
+                        (excel.Cells[iRow + 1, iCol] as Range).Cells.Font.Size = 11;
+                        (excel.Cells[iRow + 1, iCol] as Range).HorizontalAlignment = XlHAlign.xlHAlignCenter;
+                        (excel.Cells[iRow + 1, iCol] as Range).VerticalAlignment = XlHAlign.xlHAlignCenter;
+                        (excel.Cells[iRow + 1, iCol] as Range).EntireColumn.AutoFit();
+                        (excel.Cells[iRow + 1, iCol] as Range).EntireRow.AutoFit();
                     }
                     else
                     {
                         excel.Cells[iRow, iCol] = r[c.ColumnName];
+                        (excel.Cells[iRow + 1, iCol] as Range).Cells.Font.Size = 11;
+                        (excel.Cells[iRow + 1, iCol] as Range).HorizontalAlignment = XlHAlign.xlHAlignCenter;
+                        (excel.Cells[iRow + 1, iCol] as Range).VerticalAlignment = XlHAlign.xlHAlignCenter;
+                        (excel.Cells[iRow + 1, iCol] as Range).EntireColumn.AutoFit();
+                        (excel.Cells[iRow + 1, iCol] as Range).EntireRow.AutoFit();
                     }
                 }
             }
